@@ -21,7 +21,10 @@ form.addEventListener("submit", e => {
     clearGallery();
     showLoader();
     getImagesByQuery(input.value)
-      .then(res => { return res.data })
+      .then(res => {
+        console.log(res);
+        return res.data
+      })
       .then(res => {
         if (res.hits.length == 0) {
           iziToast.warning({
