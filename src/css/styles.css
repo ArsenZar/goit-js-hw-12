@@ -98,6 +98,11 @@ button {
 .hidden{
   display: none;
 }
+.loadMore{
+  width: fit-content;
+  margin: 32px auto;
+  padding: 5px 15px;
+}
 
 @keyframes rotation {
   0% {

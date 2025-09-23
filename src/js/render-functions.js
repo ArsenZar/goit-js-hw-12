@@ -8,9 +8,9 @@ const loader = document.querySelector(".loader");
 const loadMore = document.querySelector(".loadMore");
 
 export function createGallery(arrElem) {
-  let htmlGallery = [];
-  const readyElem = arrElem.map(elem => {
-    htmlGallery.push(`
+  let htmlGallery = arrElem
+    .map(elem => {
+      return `
       <a href="${elem.largeImageURL}" class="gallery-item" style="background-image: url('${elem.webformatURL}')">
         <ul class="gallery-item-info">
           <li>Likes<br><span>${elem.likes}</span></li>
@@ -19,9 +19,10 @@ export function createGallery(arrElem) {
           <li>Downloads<br><span>${elem.downloads}</span></li>
         </ul>
       </a>
-    `);
-  });
-  gallery.innerHTML = htmlGallery.join("");
+    `;
+    }).join("");
+
+  gallery.insertAdjacentHTML("beforeend", htmlGallery);
   lightbox.refresh();
 }
 

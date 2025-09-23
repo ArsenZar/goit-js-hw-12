@@ -3,10 +3,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 import getImagesByQuery from "./js/pixabay-api";
-import { createGallery, clearGallery, showLoader, hideLoader } from "./js/render-functions";
+import { createGallery, clearGallery, showLoader, hideLoader, showLoadMoreButton, hideLoadMoreButton } from "./js/render-functions";
 
 const form = document.querySelector(".form");
 const input = document.querySelector(".formInput");
+const loadMore = document.querySelector(".loadMore");
 let inputValue;
 
 form.addEventListener("submit", e => {
@@ -20,15 +21,11 @@ form.addEventListener("submit", e => {
     });
   } else {
     inputValue = input.value;
-    console.log(inputValue);
 
     clearGallery();
     showLoader();
-    getImagesByQuery(input.value)
-      .then(res => {
-        console.log(res);
-        return res.data
-      })
+    let findResoult = getImagesByQuery(input.value);
+    findResoult
       .then(res => {
         if (res.hits.length == 0) {
           iziToast.warning({
@@ -40,9 +37,18 @@ form.addEventListener("submit", e => {
         } else {
           createGallery(res.hits);
           hideLoader();
+          showLoadMoreButton();
         }
       })
       .catch(err => console.log(err));
   }
 });
 
+let pageNow = 1;
+loadMore.addEventListener("click", e => {
+
+  getImagesByQuery(inputValue, ++pageNow)
+    .then(res => {
+      createGallery(res.hits);
+    })
+});
