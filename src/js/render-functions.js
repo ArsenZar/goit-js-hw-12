@@ -37,6 +37,14 @@ export function hideLoader() {
   loader.classList.add("hidden");
 }
 
+export function showLoadMoreButton() {
+  loadMore.classList.remove("hidden");
+}
+
+export function hideLoadMoreButton() {
+  loadMore.classList.add("hidden");
+}
+
 
 // createGallery(image)
 // Ця функція повинна приймати масив images, створювати HTML - розмітку для галереї, додавати її в контейнер галереї та викликати метод екземпляра SimpleLightbox refresh().Нічого не повертає.
