@@ -4,6 +4,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 var lightbox = new SimpleLightbox('.gallery a', { captionData: "alt" });
 
 const gallery = document.querySelector(".gallery");
+const loader = document.querySelector(".loader");
+const loadMore = document.querySelector(".loadMore");
 
 export function createGallery(arrElem) {
   let htmlGallery = [];
@@ -28,13 +30,19 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  const loader = document.querySelector(".loader");
   loader.classList.remove("hidden");
 }
 
 export function hideLoader() {
-  const loader = document.querySelector(".loader");
   loader.classList.add("hidden");
+}
+
+export function showLoadMoreButton() {
+  loadMore.classList.remove("hidden");
+}
+
+export function hideLoadMoreButton() {
+  loadMore.classList.add("hidden");
 }
 // createGallery(image)
 // Ця функція повинна приймати масив images, створювати HTML - розмітку для галереї, додавати її в контейнер галереї та викликати метод екземпляра SimpleLightbox refresh().Нічого не повертає.
