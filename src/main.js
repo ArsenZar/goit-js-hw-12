@@ -11,10 +11,12 @@ const loadMore = document.querySelector(".loadMore");
 let scrollPX;
 let totalPage;
 let inputValue;
+let pageNow;
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   hideLoadMoreButton();
+  pageNow = 1;
 
   if (input.value.trim() == "") {
     iziToast.warning({
@@ -27,10 +29,8 @@ form.addEventListener("submit", async (e) => {
 
     clearGallery();
     showLoader();
-    let findResoult = await getImagesByQuery(input.value);
+    let findResoult = await getImagesByQuery(input.value, pageNow);
     totalPage = Math.ceil(findResoult.totalHits / 15);
-
-
 
     if (findResoult.hits.length == 0) {
       iziToast.warning({
@@ -51,7 +51,7 @@ form.addEventListener("submit", async (e) => {
 
 });
 
-let pageNow = 1;
+
 loadMore.addEventListener("click", async (e) => {
   e.preventDefault();
   hideLoadMoreButton();
@@ -61,7 +61,7 @@ loadMore.addEventListener("click", async (e) => {
   hideLoader();
   showLoadMoreButton();
   createGallery(findResoult.hits);
-
+  
   if (pageNow > totalPage) {
     iziToast.warning({
       title: '⛔',
