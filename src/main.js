@@ -8,10 +8,13 @@ import { createGallery, clearGallery, showLoader, hideLoader, showLoadMoreButton
 const form = document.querySelector(".form");
 const input = document.querySelector(".formInput");
 const loadMore = document.querySelector(".loadMore");
+let scrollPX;
+let totalPage;
 let inputValue;
 
-form.addEventListener("submit", e => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  hideLoadMoreButton();
 
   if (input.value.trim() == "") {
     iziToast.warning({
@@ -24,31 +27,54 @@ form.addEventListener("submit", e => {
 
     clearGallery();
     showLoader();
-    let findResoult = getImagesByQuery(input.value);
-    findResoult
-      .then(res => {
-        if (res.hits.length == 0) {
-          iziToast.warning({
-            title: '⛔',
-            message: 'Sorry, there are no images matching your search query. Please try again!',
-            position: 'topRight'
-          });
-          hideLoader();
-        } else {
-          createGallery(res.hits);
-          hideLoader();
-          showLoadMoreButton();
-        }
-      })
-      .catch(err => console.log(err));
+    let findResoult = await getImagesByQuery(input.value);
+    totalPage = Math.ceil(findResoult.totalHits / 15);
+
+
+
+    if (findResoult.hits.length == 0) {
+      iziToast.warning({
+        title: '⛔',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight'
+      });
+      hideLoader();
+    } else {
+      createGallery(findResoult.hits);
+      hideLoader();
+      showLoadMoreButton();
+    }
   }
+
+  let itemGallery = document.querySelector(".gallery-item");
+  scrollPX = itemGallery.getBoundingClientRect().height;
+
 });
 
 let pageNow = 1;
-loadMore.addEventListener("click", e => {
+loadMore.addEventListener("click", async (e) => {
+  e.preventDefault();
+  hideLoadMoreButton();
+  showLoader();
 
-  getImagesByQuery(inputValue, ++pageNow)
-    .then(res => {
-      createGallery(res.hits);
-    })
+  let findResoult = await getImagesByQuery(inputValue, ++pageNow);
+  hideLoader();
+  showLoadMoreButton();
+  createGallery(findResoult.hits);
+
+  if (pageNow > totalPage) {
+    iziToast.warning({
+      title: '⛔',
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight'
+    });
+    hideLoadMoreButton();
+  }
+
+
+  window.scrollBy({
+    top: scrollPX * 2.5 + 48,
+    behavior: "smooth",
+  });
+
 });

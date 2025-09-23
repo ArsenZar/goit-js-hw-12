@@ -8,6 +8,11 @@
 @import url('./reset.css');
 @import url('./base.css');
 
+body{
+  padding-bottom: 50px;
+  box-sizing: border-box;
+}
+
 .form{
   margin: 0 auto;
   display: flex;
@@ -93,7 +98,7 @@ button {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  margin: 0 auto;
+  margin: 30px auto;
 }
 .hidden{
   display: none;
@@ -102,6 +107,9 @@ button {
   width: fit-content;
   margin: 32px auto;
   padding: 5px 15px;
+}
+.gallery{
+  padding: 30px 0px;
 }
 
 @keyframes rotation {
