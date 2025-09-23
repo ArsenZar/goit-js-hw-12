@@ -7,6 +7,7 @@ import { createGallery, clearGallery, showLoader, hideLoader } from "./js/render
 
 const form = document.querySelector(".form");
 const input = document.querySelector(".formInput");
+let inputValue;
 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -18,6 +19,9 @@ form.addEventListener("submit", e => {
       position: 'topRight'
     });
   } else {
+    inputValue = input.value;
+    console.log(inputValue);
+
     clearGallery();
     showLoader();
     getImagesByQuery(input.value)
